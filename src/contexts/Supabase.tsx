@@ -36,7 +36,6 @@ const SupabaseContext = createContext({} as SupabaseContextType);
 export const SupabaseProvider = ({ children }: SupabaseProviderType) => {
 	const navigate = useNavigate();
 	const [session, setSession] = useState(null);
-	console.log(supabase);
 
 	const getSession = () => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
