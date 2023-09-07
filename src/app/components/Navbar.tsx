@@ -55,7 +55,7 @@ export const Navbar = () => {
 				</div>
 				<nav
 					className={`transition-all duration-300 overflow-hidden text-center lg:flex lg:items-center lg:flex-1 lg:h-auto lg:justify-end
-						${isMenuOpen ? "h-[260px] shadow" : "h-0"} 
+						${isMenuOpen ? "h-[260px]" : "h-0"} 
 					`}
 				>
 					<ul className="lg:flex lg:items-center">
