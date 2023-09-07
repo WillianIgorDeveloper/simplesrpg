@@ -53,7 +53,7 @@ export const ThemeProvider = ({ children }: ThemeProviderType) => {
 			document.documentElement.classList.remove("dark");
 			setTheme("light");
 		}
-	}, []);
+	}, [theme]);
 
 	return (
 		<ThemeContext.Provider

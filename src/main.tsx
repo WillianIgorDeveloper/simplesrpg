@@ -4,24 +4,28 @@ import "./index.css";
 import { ThemeProvider } from "./contexts/Theme";
 import { SupabaseProvider } from "./contexts/Supabase";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout } from "./app/Layout";
+import { AppLayout } from "./app/AppLayout";
 import { Home } from "./app/Home";
+import { SingIn } from "./app/Login/SingIn";
+import { SingUp } from "./app/Login/SingUp";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<ThemeProvider>
-			<SupabaseProvider>
-				<BrowserRouter>
+			<BrowserRouter>
+				<SupabaseProvider>
 					<Routes>
-						<Route path="" element={<Layout />}>
+						<Route path="" element={<AppLayout />}>
 							<Route index element={<Home />} />
 							<Route path="busque-por-aventuras" element={<Home />} />
 							<Route path="sobre" element={<Home />} />
 							<Route path="apoie" element={<Home />} />
 						</Route>
+						<Route path="entrar" element={<SingIn />} />
+						<Route path="criar-conta" element={<SingUp />} />
 					</Routes>
-				</BrowserRouter>
-			</SupabaseProvider>
+				</SupabaseProvider>
+			</BrowserRouter>
 		</ThemeProvider>
 	</React.StrictMode>
 );

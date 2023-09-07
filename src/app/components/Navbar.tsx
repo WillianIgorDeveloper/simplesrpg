@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { CaretDown, CaretUp, Gift } from "@phosphor-icons/react";
+import { CaretDown, CaretUp, Gift, Moon, Sun } from "@phosphor-icons/react";
+import { useSupabase } from "../../contexts/Supabase";
+import { useTheme } from "../../contexts/Theme";
 
 export const Navbar = () => {
+	const { session, singOut } = useSupabase();
+	const { theme, setThemeToDark, setThemeToLight } = useTheme();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
 
@@ -20,7 +24,7 @@ export const Navbar = () => {
 
 	return (
 		<header
-			className={`bg-snow-storm-10 dark:bg-polar-night-10 fixed w-full z-30 ${
+			className={`bg-snow-storm-20 dark:bg-polar-night-10 fixed w-full z-30 ${
 				isScrolled && "shadow"
 			}`}
 		>
@@ -51,15 +55,18 @@ export const Navbar = () => {
 				</div>
 				<nav
 					className={`transition-all duration-300 overflow-hidden text-center lg:flex lg:items-center lg:flex-1 lg:h-auto lg:justify-end
-						${isMenuOpen ? "h-[305px]" : "h-0"} 
+						${isMenuOpen ? "h-[260px] shadow" : "h-0"} 
 					`}
 				>
 					<ul className="lg:flex lg:items-center">
 						<li>
 							<NavLink
 								className={({ isActive }) =>
-									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
-									${isActive && "border-l-4 border-brand-primary bg-polar-night-20 lg:text-brand-primary"}
+									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:dark:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
+									${
+										isActive &&
+										"border-l-4 border-brand-primary bg-snow-storm-10 dark:bg-polar-night-20 lg:text-brand-primary"
+									}
 									`
 								}
 								to={"/"}
@@ -67,14 +74,17 @@ export const Navbar = () => {
 									setIsMenuOpen(!isMenuOpen);
 								}}
 							>
-								Home
+								Início
 							</NavLink>
 						</li>
 						<li>
 							<NavLink
 								className={({ isActive }) =>
-									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
-									${isActive && "border-l-4 border-brand-primary bg-polar-night-20 lg:text-brand-primary"}
+									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:dark:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
+									${
+										isActive &&
+										"border-l-4 border-brand-primary bg-snow-storm-10 dark:bg-polar-night-20 lg:text-brand-primary"
+									}
 									`
 								}
 								to={"/busque-por-aventuras"}
@@ -88,8 +98,11 @@ export const Navbar = () => {
 						<li>
 							<NavLink
 								className={({ isActive }) =>
-									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
-									${isActive && "border-l-4 border-brand-primary bg-polar-night-20 lg:text-brand-primary"}
+									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:dark:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
+									${
+										isActive &&
+										"border-l-4 border-brand-primary bg-snow-storm-10 dark:bg-polar-night-20 lg:text-brand-primary"
+									}
 									`
 								}
 								to={"/sobre"}
@@ -103,8 +116,11 @@ export const Navbar = () => {
 						<li>
 							<NavLink
 								className={({ isActive }) =>
-									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
-									${isActive && "border-l-4 border-brand-primary bg-polar-night-20 lg:text-brand-primary"}
+									`p-3 flex items-center gap-3 lg:border-none lg:bg-inherit lg:dark:bg-inherit lg:py lg:hover:opacity-90 lg:active:opacity-80
+									${
+										isActive &&
+										"border-l-4 border-brand-primary bg-snow-storm-10 dark:bg-polar-night-20 lg:text-brand-primary"
+									}
 									`
 								}
 								to={"/apoie"}
@@ -112,28 +128,73 @@ export const Navbar = () => {
 									setIsMenuOpen(!isMenuOpen);
 								}}
 							>
-								<Gift className="text-xl text-aurora-yellow" /> Apoie
+								<Gift
+									weight="bold"
+									size={24}
+									className="text-aurora-yellow"
+								/>{" "}
+								Apoie
 							</NavLink>
 						</li>
 					</ul>
-					<div className="flex gap-5 justify-center m-5">
-						<button className="lg:hover:opacity-90 lg:active:opacity-80">
-							<NavLink
-								className="rounded-md py-2 px-3 border border-brand-primary text-brand-primary font-medium lg:transition-colors lg:duration-200"
-								to={"/"}
+					{session ? (
+						<div className="flex gap-5 items-center justify-center m-5">
+							<span>
+								{session.user.user_metadata.custom_claims.global_name}
+							</span>
+							<button
+								className="bg-aurora-red py-1 px-3 rounded text-snow-storm-20"
+								onClick={singOut}
 							>
-								Entrar
-							</NavLink>
-						</button>
-						<button className="lg:hover:opacity-90 lg:active:opacity-80">
-							<NavLink
-								className="rounded-md py-2 px-3 bg-brand-secondary font-medium"
-								to={"/"}
-							>
-								Criar conta
-							</NavLink>
-						</button>
-					</div>
+								Sair
+							</button>
+							{theme === "light" ? (
+								<Moon
+									size={22}
+									className="cursor-pointer lg:hover:scale-110"
+									onClick={setThemeToDark}
+								/>
+							) : (
+								<Sun
+									size={22}
+									className="cursor-pointer lg:hover:scale-110"
+									onClick={setThemeToLight}
+								/>
+							)}
+						</div>
+					) : (
+						<div className="flex gap-5 justify-center m-5 items-center">
+							<button className="lg:hover:opacity-90 lg:active:opacity-80">
+								<NavLink
+									className="rounded-md py-2 px-3 border border-brand-primary text-brand-primary font-medium lg:transition-colors lg:duration-200"
+									to={"/entrar"}
+								>
+									Entrar
+								</NavLink>
+							</button>
+							<button className="lg:hover:opacity-90 lg:active:opacity-80">
+								<NavLink
+									className="rounded-md py-2 px-3 bg-gradient-to-l from-brand-primary to-brand-secondary font-medium text-snow-storm-30"
+									to={"/criar-conta"}
+								>
+									Criar conta
+								</NavLink>
+							</button>
+							{theme === "light" ? (
+								<Moon
+									size={22}
+									className="cursor-pointer lg:hover:scale-110"
+									onClick={setThemeToDark}
+								/>
+							) : (
+								<Sun
+									size={22}
+									className="cursor-pointer lg:hover:scale-110"
+									onClick={setThemeToLight}
+								/>
+							)}
+						</div>
+					)}
 				</nav>
 			</div>
 		</header>
