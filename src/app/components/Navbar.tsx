@@ -140,7 +140,7 @@ export const Navbar = () => {
 					{session ? (
 						<div className="flex gap-5 items-center justify-center m-5">
 							<span>
-								{session.user.user_metadata.custom_claims.global_name}
+								User name
 							</span>
 							<button
 								className="bg-aurora-red py-1 px-3 rounded text-snow-storm-20"
